@@ -348,6 +348,11 @@ std::vector<glm::vec3> GetScaleAttachments(const EditableStudioModel& studioMode
 void ApplyScaleAttachments(EditableStudioModel& studioModel, const std::vector<glm::vec3>& data,
 	std::optional<float> scale);
 
+std::pair<glm::vec3, glm::vec3> GetScaleCBoxData(const EditableStudioModel& studioModel);
+
+void ApplyScaleCBoxData(EditableStudioModel& studioModel, const std::pair<glm::vec3, glm::vec3>& data,
+	std::optional<float> scale);
+
 struct ScaleData
 {
 	std::optional<std::vector<glm::vec3>> Meshes;
@@ -356,6 +361,7 @@ struct ScaleData
 	std::optional<std::vector<ScaleBonesBoneData>> Bones;
 	std::optional<glm::vec3> EyePosition;
 	std::optional<std::vector<glm::vec3>> Attachments;
+	std::optional<std::pair<glm::vec3, glm::vec3>> CBox;
 };
 
 namespace ScaleFlags
@@ -369,6 +375,7 @@ enum ScaleFlags
 	ScaleBones = 1 << 3,
 	ScaleEyePosition = 1 << 4,
 	ScaleAttachments = 1 << 5,
+	ScaleCBox = 1 << 6,
 };
 }
 

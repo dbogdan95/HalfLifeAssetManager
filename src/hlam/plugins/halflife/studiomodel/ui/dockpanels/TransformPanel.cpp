@@ -97,6 +97,11 @@ void TransformPanel::OnApply()
 			flags |= studiomdl::ScaleFlags::ScaleAttachments;
 		}
 
+		if (_ui.ScaleCBox->isChecked())
+		{
+			flags |= studiomdl::ScaleFlags::ScaleCBox;
+		}
+
 		auto entity = asset->GetEntity();
 
 		auto data{studiomdl::CalculateScaleData(*entity->GetEditableModel(), flags)};
