@@ -550,6 +550,26 @@ void ApplyScaleAttachments(EditableStudioModel& studioModel, const std::vector<g
 	}
 }
 
+std::pair<glm::vec3, glm::vec3> GetScaleCBoxData(const EditableStudioModel& studioModel)
+{
+	return std::make_pair(studioModel.ClippingMin, studioModel.ClippingMax);
+}
+
+void ApplyScaleCBoxData(EditableStudioModel& studioModel, const std::pair<glm::vec3, glm::vec3>& data,
+	std::optional<float> scale)
+{
+	if (scale)
+	{
+		studioModel.ClippingMin = data.first * (*scale);
+		studioModel.ClippingMax = data.second * (*scale);
+	}
+	else
+	{
+		studioModel.ClippingMin = data.first;
+		studioModel.ClippingMax = data.second;
+	}
+}
+
 ScaleData CalculateScaleData(const EditableStudioModel& studioModel, const int flags)
 {
 	ScaleData data;
@@ -582,6 +602,11 @@ ScaleData CalculateScaleData(const EditableStudioModel& studioModel, const int f
 	if (flags & ScaleFlags::ScaleAttachments)
 	{
 		data.Attachments = GetScaleAttachments(studioModel);
+	}
+
+	if (flags & ScaleFlags::ScaleCBox)
+	{
+		data.CBox = GetScaleCBoxData(studioModel);
 	}
 
 	return data;
@@ -622,6 +647,11 @@ void ApplyScaleData(EditableStudioModel& studioModel, const ScaleData& data, std
 	if (data.Attachments.has_value())
 	{
 		ApplyScaleAttachments(studioModel, data.Attachments.value(), scale);
+	}
+
+	if (data.CBox.has_value())
+	{
+		ApplyScaleCBoxData(studioModel, data.CBox.value(), scale);
 	}
 }
 
